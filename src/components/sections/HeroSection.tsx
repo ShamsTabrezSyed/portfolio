@@ -24,7 +24,7 @@ export function HeroSection() {
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-primary/20 border-2 border-primary/50 flex items-center justify-center overflow-hidden">
                   <img 
-                    src="/profile.png" 
+                    src="public/profile.png" 
                     alt={personalInfo.name}
                     className="w-full h-full object-cover"
                   />
