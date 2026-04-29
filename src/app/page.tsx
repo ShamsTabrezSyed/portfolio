@@ -11,9 +11,9 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { GlitchLogo } from '@/components/ui/GlitchLogo';
 
 const navItems = [
-  { href: '/portfolio/systems', label: 'Systems' },
-  { href: '/portfolio/about', label: 'About' },
-  { href: '/portfolio/contact', label: 'Contact' },
+  { href: '/systems', label: 'Systems' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 function Navigation({ showLogo = true }: { showLogo?: boolean }) {
@@ -48,7 +48,7 @@ function Navigation({ showLogo = true }: { showLogo?: boolean }) {
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-between h-14">
             {showLogo ? (
-              <Link href="/portfolio">
+              <Link href="/">
                 <GlitchLogo baseName="Shams" className="text-xl font-bold" />
               </Link>
             ) : (
@@ -104,7 +104,7 @@ function Navigation({ showLogo = true }: { showLogo?: boolean }) {
             className="fixed inset-0 z-40 bg-background md:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 pt-16">
-              <Link href="/portfolio" onClick={() => setIsOpen(false)}>
+              <Link href="/" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" size="lg" className="text-lg">
                   Home
                 </Button>

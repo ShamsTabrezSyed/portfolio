@@ -24,7 +24,7 @@ export function HeroSection() {
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-primary/20 border-2 border-primary/50 flex items-center justify-center overflow-hidden">
                   <img 
-                    src="/portfolio/profile.png" 
+                    src="/profile.png" 
                     alt={personalInfo.name}
                     className="w-full h-full object-cover"
                   />
@@ -84,20 +84,20 @@ export function HeroSection() {
             className="flex flex-wrap gap-4 justify-center"
           >
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-base px-8">
-              <a href="/portfolio/systems" className="flex items-center">
+              <a href="/systems" className="flex items-center">
                 <Cpu className="mr-2 h-5 w-5" />
                 View Systems
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </Button>
             <Button size="lg" variant="outline" className="border-primary/50 hover:bg-primary/10 text-base px-8">
-              <a href="/portfolio/systems#architecture" className="flex items-center">
+              <a href="/systems#architecture" className="flex items-center">
                 <Network className="mr-2 h-5 w-5" />
                 Architecture
               </a>
             </Button>
             <Button size="lg" variant="ghost" className="text-muted-foreground hover:text-primary text-base px-8">
-              <a href="/portfolio/contact" className="flex items-center">
+              <a href="/contact" className="flex items-center">
                 <Mail className="mr-2 h-5 w-5" />
                 Contact
               </a>
