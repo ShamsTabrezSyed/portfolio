@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { HeroSection } from '@/components/sections/HeroSection';
-import { personalInfo } from '@/lib/constants';
+import { GlitchLogo } from '@/components/ui/GlitchLogo';
 
 const navItems = [
   { href: '/portfolio/systems', label: 'Systems' },
@@ -16,11 +16,10 @@ const navItems = [
   { href: '/portfolio/contact', label: 'Contact' },
 ];
 
-function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
+function Navigation({ showLogo = true }: { showLogo?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,12 +29,16 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isActive = (href: string) => {
+    return pathname === href || pathname === href.replace('/portfolio', '');
+  };
+
   return (
     <>
       <motion.header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled || !isHome || hideLogo
+          isScrolled || !showLogo
             ? 'bg-background/80 backdrop-blur-md border-b border-border'
             : 'bg-transparent'
         )}
@@ -44,19 +47,19 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
       >
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-between h-14">
-            {!hideLogo && isHome ? (
-              <span className="text-lg font-bold text-primary">
-                {personalInfo.name}
-              </span>
+            {showLogo ? (
+              <Link href="/portfolio">
+                <GlitchLogo baseName="Shams" className="text-lg font-bold" />
+              </Link>
             ) : (
               <Link href="/portfolio" className="text-lg font-bold">
-                <span className="text-primary">{personalInfo.name.split(' ')[0]}</span>
+                <span className="text-primary">Shams</span>
               </Link>
             )}
 
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
-                const isActive = pathname === item.href;
+                const active = isActive(item.href);
                 return (
                   <Link key={item.href} href={item.href}>
                     <Button
@@ -64,11 +67,11 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
                       size="sm"
                       className={cn(
                         'relative text-base',
-                        isActive ? 'text-primary' : 'text-muted-foreground'
+                        active ? 'text-primary' : 'text-muted-foreground'
                       )}
                     >
                       {item.label}
-                      {isActive && (
+                      {active && (
                         <motion.div
                           layoutId="navbar-indicator"
                           className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
@@ -124,7 +127,7 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
 export default function HomePage() {
   return (
     <>
-      <Navigation hideLogo />
+      <Navigation />
       <main>
         <HeroSection />
         
@@ -154,7 +157,7 @@ export default function HomePage() {
 
       <footer className="py-8 border-t border-border">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} {personalInfo.name}. Building Intelligent Systems at Scale.</p>
+          <p>&copy; {new Date().getFullYear()} Shams Tabrez Syed. Building Intelligent Systems at Scale.</p>
         </div>
       </footer>
     </>
