@@ -11,9 +11,9 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { personalInfo } from '@/lib/constants';
 
 const navItems = [
-  { href: '/systems', label: 'Systems' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/portfolio/systems', label: 'Systems' },
+  { href: '/portfolio/about', label: 'About' },
+  { href: '/portfolio/contact', label: 'Contact' },
 ];
 
 function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
@@ -49,7 +49,7 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
                 {personalInfo.name}
               </span>
             ) : (
-              <Link href="/" className="text-lg font-bold">
+              <Link href="/portfolio" className="text-lg font-bold">
                 <span className="text-primary">{personalInfo.name.split(' ')[0]}</span>
               </Link>
             )}
@@ -101,7 +101,7 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
             className="fixed inset-0 z-40 bg-background md:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 pt-16">
-              <Link href="/" onClick={() => setIsOpen(false)}>
+              <Link href="/portfolio" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" size="lg" className="text-lg">
                   Home
                 </Button>

@@ -40,7 +40,7 @@ function PageLayout({ children }: { children: React.ReactNode }) {
       >
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-between h-14">
-            <Link href="/" className="text-lg font-bold flex items-center gap-2">
+            <Link href="/portfolio" className="text-lg font-bold flex items-center gap-2">
               <Home className="h-5 w-5 text-primary" />
               <span className="text-primary">{personalInfo.name.split(' ')[0]}</span>
               <span className="text-muted-foreground text-sm hidden sm:inline">{personalInfo.name.split(' ').slice(1).join(' ')}</span>
@@ -93,7 +93,7 @@ function PageLayout({ children }: { children: React.ReactNode }) {
             className="fixed inset-0 z-40 bg-background md:hidden"
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 pt-16">
-              <Link href="/" onClick={() => setIsOpen(false)}>
+              <Link href="/portfolio" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" size="lg">
                   <Home className="mr-2 h-5 w-5" />
                   Home
