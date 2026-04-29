@@ -6,25 +6,23 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
-import { HeroSection } from '@/components/sections/HeroSection';
+import { Menu, X, Cpu, Network, User, Mail, Home } from 'lucide-react';
 import { personalInfo } from '@/lib/constants';
 
 const navItems = [
-  { href: '/systems', label: 'Systems' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/systems', label: 'Systems', icon: Network },
+  { href: '/about', label: 'About', icon: User },
+  { href: '/contact', label: 'Contact', icon: Mail },
 ];
 
-function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
+function PageLayout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -35,24 +33,18 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
       <motion.header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled || !isHome || hideLogo
-            ? 'bg-background/80 backdrop-blur-md border-b border-border'
-            : 'bg-transparent'
+          isScrolled ? 'bg-background/80 backdrop-blur-md border-b border-border' : 'bg-background/50 backdrop-blur-sm border-b border-border'
         )}
-        initial={{ y: -100 }}
+        initial={{ y: -50 }}
         animate={{ y: 0 }}
       >
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-between h-14">
-            {!hideLogo && isHome ? (
-              <span className="text-lg font-bold text-primary">
-                {personalInfo.name}
-              </span>
-            ) : (
-              <Link href="/" className="text-lg font-bold">
-                <span className="text-primary">{personalInfo.name.split(' ')[0]}</span>
-              </Link>
-            )}
+            <Link href="/" className="text-lg font-bold flex items-center gap-2">
+              <Home className="h-5 w-5 text-primary" />
+              <span className="text-primary">{personalInfo.name.split(' ')[0]}</span>
+              <span className="text-muted-foreground text-sm hidden sm:inline">{personalInfo.name.split(' ').slice(1).join(' ')}</span>
+            </Link>
 
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
@@ -63,7 +55,7 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
                       variant="ghost"
                       size="sm"
                       className={cn(
-                        'relative text-base',
+                        'relative',
                         isActive ? 'text-primary' : 'text-muted-foreground'
                       )}
                     >
@@ -102,13 +94,14 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
           >
             <div className="flex flex-col items-center justify-center h-full gap-6 pt-16">
               <Link href="/" onClick={() => setIsOpen(false)}>
-                <Button variant="ghost" size="lg" className="text-lg">
+                <Button variant="ghost" size="lg">
+                  <Home className="mr-2 h-5 w-5" />
                   Home
                 </Button>
               </Link>
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" size="lg" className="text-lg">
+                  <Button variant="ghost" size="lg">
                     {item.label}
                   </Button>
                 </Link>
@@ -117,46 +110,18 @@ function Navigation({ hideLogo = false }: { hideLogo?: boolean }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
-  );
-}
 
-export default function HomePage() {
-  return (
-    <>
-      <Navigation hideLogo />
-      <main>
-        <HeroSection />
-        
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-3 gap-10 text-center">
-              {[
-                { value: '500K+', label: 'Documents Indexed' },
-                { value: '92%', label: 'Latency Reduction' },
-                { value: '94.2%', label: 'Model Accuracy' }
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <p className="text-4xl md:text-5xl font-bold text-primary">{stat.value}</p>
-                  <p className="text-base text-muted-foreground mt-2">{stat.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+      <main className="pt-14">
+        {children}
       </main>
 
-      <footer className="py-8 border-t border-border">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+      <footer className="py-6 border-t border-border mt-auto">
+        <div className="container mx-auto px-4 text-center text-xs text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} {personalInfo.name}. Building Intelligent Systems at Scale.</p>
         </div>
       </footer>
     </>
   );
 }
+
+export default PageLayout;
