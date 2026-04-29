@@ -27,9 +27,19 @@ export default function AboutPage() {
             <span className="text-primary">About</span>
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-bold mb-10 text-center">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 text-center">
             About<span className="text-primary">.</span>
           </h1>
+
+          <div className="flex justify-center mb-10">
+            <div className="w-40 h-40 rounded-full border-2 border-primary/50 overflow-hidden">
+              <img 
+                src="/images/profile.png" 
+                alt={personalInfo.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-10 mb-14">
             <div>
