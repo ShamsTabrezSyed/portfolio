@@ -17,7 +17,7 @@ export default function ContactPage() {
           className="max-w-xl mx-auto"
         >
           <div className="flex items-center justify-center gap-2 mb-8">
-            <Link href="/portfolio">
+            <Link href="/portfolio/">
               <Button variant="ghost" size="sm" className="text-muted-foreground">
                 <Home className="mr-1 h-4 w-4" />
                 Home

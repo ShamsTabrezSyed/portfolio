@@ -49,7 +49,7 @@ function Navigation({ showLogo = true }: { showLogo?: boolean }) {
           <nav className="flex items-center justify-between h-14">
             {showLogo ? (
               <Link href="/portfolio">
-                <GlitchLogo baseName="Shams" className="text-lg font-bold" />
+                <GlitchLogo baseName="Shams" className="text-xl font-bold" />
               </Link>
             ) : (
               <Link href="/portfolio" className="text-lg font-bold">

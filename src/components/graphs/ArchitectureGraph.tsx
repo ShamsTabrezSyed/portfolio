@@ -9,6 +9,7 @@ interface GraphNode {
   description: string;
   tech: string;
   type: 'input' | 'process' | 'storage' | 'model' | 'output';
+  details?: string[];
 }
 
 interface ArchitectureGraphProps {
@@ -24,14 +25,94 @@ const nodeColors: Record<string, string> = {
 };
 
 const ragNodes: GraphNode[] = [
-  { id: 'user', label: 'User Query', description: 'User input via chat interface', tech: 'React/Next.js', type: 'input' },
-  { id: 'preprocess', label: 'Input Preprocess', description: 'Clean, normalize & tokenize query text', tech: 'Python/Regex', type: 'process' },
-  { id: 'embed', label: 'Text Embedding', description: 'Convert text to vector embeddings', tech: 'text-embedding-3', type: 'model' },
-  { id: 'faiss', label: 'FAISS Index', description: 'Semantic similarity search', tech: 'FAISS/Pinecone', type: 'storage' },
-  { id: 'rerank', label: 'Cross-Encoder', description: 'Re-rank retrieved chunks by relevance', tech: 'cross-encoder-ms', type: 'model' },
-  { id: 'context', label: 'Context Builder', description: 'Combine chunks into prompt context', tech: 'LangChain', type: 'process' },
-  { id: 'llm', label: 'LLM Engine', description: 'Generate contextual response', tech: 'GPT-4/LLaMA', type: 'model' },
-  { id: 'output', label: 'Response', description: 'Stream final answer to user', tech: 'Streaming API', type: 'output' }
+  { 
+    id: 'user', 
+    label: 'User Input', 
+    description: 'End user submits query through chat interface', 
+    tech: 'React/Next.js', 
+    type: 'input',
+    details: ['Chat UI', 'WebSocket', 'Session']
+  },
+  { 
+    id: 'gateway', 
+    label: 'API Gateway', 
+    description: 'Request routing, auth validation, rate limiting', 
+    tech: 'Azure API Mgmt', 
+    type: 'input',
+    details: ['Auth JWT', 'Rate Limit', 'Logging']
+  },
+  { 
+    id: 'preprocess', 
+    label: 'Text Preprocessing', 
+    description: 'Clean, normalize, split query into tokens', 
+    tech: 'Python/NLTK', 
+    type: 'process',
+    details: ['Lowercase', 'Punctuation', 'Stopwords']
+  },
+  { 
+    id: 'embed', 
+    label: 'Embedding Model', 
+    description: 'Convert text to 1536-dim vector representation', 
+    tech: 'text-embedding-3-small', 
+    type: 'model',
+    details: ['1536 dims', 'Semantic', 'Cosine sim']
+  },
+  { 
+    id: 'faiss', 
+    label: 'Vector Index', 
+    description: 'Approximate nearest neighbor search', 
+    tech: 'FAISS/IVF', 
+    type: 'storage',
+    details: ['IVF-PQ', 'Top-K=10', 'M=64']
+  },
+  { 
+    id: 'hybrid', 
+    label: 'Hybrid Search', 
+    description: 'Combine dense + sparse retrieval', 
+    tech: 'BM25 + Dense', 
+    type: 'process',
+    details: ['BM25', 'RRF fusion', 'Weights']
+  },
+  { 
+    id: 'rerank', 
+    label: 'Cross-Encoder', 
+    description: 'Re-score top chunks for relevance', 
+    tech: 'cross-encoder-ms', 
+    type: 'model',
+    details: ['Re-ranking', 'Top-K=5', 'Score threshold']
+  },
+  { 
+    id: 'context', 
+    label: 'Context Builder', 
+    description: 'Format retrieved docs into prompt', 
+    tech: 'LangChain', 
+    type: 'process',
+    details: ['Chunking', 'Citations', 'Prompt']
+  },
+  { 
+    id: 'llm', 
+    label: 'LLM Generation', 
+    description: 'Generate contextual response with citations', 
+    tech: 'GPT-4 Turbo', 
+    type: 'model',
+    details: ['128K ctx', 'Function calls', 'JSON mode']
+  },
+  { 
+    id: 'validate', 
+    label: 'Output Validator', 
+    description: 'Check response quality and safety', 
+    tech: 'Guardrails AI', 
+    type: 'process',
+    details: ['PII detection', 'Toxicity', 'Format']
+  },
+  { 
+    id: 'stream', 
+    label: 'Streaming', 
+    description: 'Stream response tokens to client', 
+    tech: 'Server-Sent Events', 
+    type: 'output',
+    details: ['Real-time', 'Tokens', 'Progress']
+  }
 ];
 
 export function ArchitectureGraph({ className }: ArchitectureGraphProps) {
@@ -39,48 +120,48 @@ export function ArchitectureGraph({ className }: ArchitectureGraphProps) {
   const [activeNode, setActiveNode] = useState<string>('user');
 
   return (
-    <div className={`relative w-full min-h-[500px] ${className}`}>
-      <div className="relative flex flex-col items-center gap-3">
-        <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto mb-6">
+    <div className={`relative w-full min-h-[650px] ${className}`}>
+      <div className="relative flex flex-col items-center gap-2">
+        <div className="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto">
           {ragNodes.map((node, i) => (
             <motion.div
               key={node.id}
               className="relative"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
+              transition={{ delay: i * 0.05 }}
             >
               <motion.div
                 className={`flex flex-col items-center cursor-pointer transition-all duration-200 ${
-                  activeNode === node.id ? 'scale-105' : 'hover:scale-102'
+                  activeNode === node.id ? 'scale-108' : 'hover:scale-103'
                 }`}
                 onClick={() => setActiveNode(node.id)}
                 onMouseEnter={() => setHoveredNode(node.id)}
                 onMouseLeave={() => setHoveredNode(null)}
               >
                 <div
-                  className={`w-24 h-24 rounded-xl flex flex-col items-center justify-center border-2 transition-all duration-300 ${
+                  className={`w-28 h-20 rounded-lg flex flex-col items-center justify-center border-2 transition-all duration-300 ${
                     activeNode === node.id
-                      ? 'shadow-[0_0_25px_rgba(0,212,255,0.5)]'
+                      ? 'shadow-[0_0_30px_rgba(0,212,255,0.6)]'
                       : ''
                   }`}
                   style={{
                     borderColor: nodeColors[node.type],
-                    backgroundColor: activeNode === node.id ? `${nodeColors[node.type]}25` : `${nodeColors[node.type]}15`,
+                    backgroundColor: activeNode === node.id ? `${nodeColors[node.type]}30` : `${nodeColors[node.type]}18`,
                   }}
                 >
                   <div 
-                    className="w-2.5 h-2.5 rounded-full mb-1.5" 
+                    className="w-2 h-2 rounded-full mb-1" 
                     style={{ backgroundColor: nodeColors[node.type] }}
                   />
-                  <span className="text-xs font-semibold text-center px-1">{node.label}</span>
+                  <span className="text-[11px] font-semibold text-center px-1 leading-tight">{node.label}</span>
                 </div>
 
                 <span 
-                  className="text-[10px] mt-1 px-1.5 py-0.5 rounded"
+                  className="text-[9px] mt-1 px-1.5 py-0.5 rounded"
                   style={{ 
                     color: nodeColors[node.type],
-                    backgroundColor: `${nodeColors[node.type]}15`
+                    backgroundColor: `${nodeColors[node.type]}18`
                   }}
                 >
                   {node.tech}
@@ -89,76 +170,81 @@ export function ArchitectureGraph({ className }: ArchitectureGraphProps) {
                 <AnimatePresence>
                   {hoveredNode === node.id && (
                     <motion.div
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-44 p-2.5 rounded-lg bg-card border z-50 shadow-lg"
+                      initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-52 p-3 rounded-lg bg-card border z-50 shadow-xl"
                     >
-                      <p className="text-xs font-medium" style={{ color: nodeColors[node.type] }}>
+                      <p className="text-xs font-bold" style={{ color: nodeColors[node.type] }}>
                         {node.label}
                       </p>
                       <p className="text-[10px] text-muted-foreground mt-1">{node.description}</p>
+                      {node.details && (
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {node.details.map((d, i) => (
+                            <span key={i} className="text-[9px] px-1.5 py-0.5 rounded bg-muted/50">
+                              {d}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </motion.div>
 
               {i < ragNodes.length - 1 && (
-                <motion.div 
-                  className="absolute top-12 -right-2 w-8 h-0.5"
-                  style={{
-                    background: `linear-gradient(90deg, ${nodeColors[node.type]} 0%, ${nodeColors[node.type]}50% 50%, transparent 100%)`
-                  }}
-                >
+                <div className="absolute top-16 -right-3 w-6 h-0.5 overflow-hidden">
                   <motion.div 
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
-                    style={{ backgroundColor: nodeColors[node.type] }}
-                    animate={{ x: [0, 4], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                </motion.div>
+                    className="absolute top-0 w-full h-full"
+                    style={{
+                      background: `linear-gradient(90deg, ${nodeColors[node.type]} 0%, transparent 100%)`
+                    }}
+                  >
+                    <motion.div 
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-1.5 rounded-full"
+                      style={{ backgroundColor: nodeColors[node.type] }}
+                      animate={{ x: [0, 20], opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
+                    />
+                  </motion.div>
+                </div>
               )}
             </motion.div>
           ))}
         </div>
 
-        {ragNodes.slice(0, 1).map((node) => (
-          <div key="doc-store" className="mt-8 relative">
-            <div 
-              className="w-44 p-3 rounded-xl border-2 border-dashed"
-              style={{
-                borderColor: '#f472b6',
-                backgroundColor: '#f472b610'
-              }}
-            >
-              <p className="text-xs font-semibold text-center" style={{ color: '#f472b6' }}>
-                Document Store
-              </p>
-              <p className="text-[10px] text-muted-foreground text-center">Azure Blob / S3</p>
-            </div>
-            <motion.div 
-              className="absolute -top-8 left-1/2 w-0.5 h-8"
-              style={{ backgroundColor: '#f472b640' }}
-            />
-          </div>
-        ))}
-
         <AnimatePresence mode="wait">
           <motion.div
             key={activeNode}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="mt-6 p-3 rounded-lg bg-card/50 border border-primary/20 max-w-md"
+            className="mt-8 p-4 rounded-lg bg-card/60 border border-primary/25 max-w-2xl"
           >
-            <p className="text-sm text-center" style={{ color: nodeColors[ragNodes.find(n => n.id === activeNode)?.type || 'model'] }}>
-              {ragNodes.find(n => n.id === activeNode)?.description}
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-bold" style={{ color: nodeColors[ragNodes.find(n => n.id === activeNode)?.type || 'model'] }}>
+                  {ragNodes.find(n => n.id === activeNode)?.label}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {ragNodes.find(n => n.id === activeNode)?.description}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs font-medium" style={{ color: nodeColors[ragNodes.find(n => n.id === activeNode)?.type || 'model'] }}>
+                  {ragNodes.find(n => n.id === activeNode)?.tech}
+                </p>
+                <p className="text-[10px] text-muted-foreground capitalize">
+                  {ragNodes.find(n => n.id === activeNode)?.type} Stage
+                </p>
+              </div>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-4 text-[10px]">
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-3 text-[9px]">
         {[
           { label: 'Input', color: '#22d3ee' },
           { label: 'Processing', color: '#a855f7' },

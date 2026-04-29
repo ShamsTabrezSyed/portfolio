@@ -148,7 +148,7 @@ export default function SystemsPage() {
           className="text-center mb-12"
         >
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Link href="/portfolio">
+            <Link href="/portfolio/">
               <Button variant="ghost" size="sm" className="text-muted-foreground">
                 <Home className="mr-1 h-4 w-4" />
                 Home
