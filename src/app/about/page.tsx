@@ -91,7 +91,7 @@ export default function AboutPage() {
                 transition={{ delay: 0.2 }}
                 className="mt-6"
               >
-                <Link href="/portfolio/contact">
+                <Link href="/contact">
                   <Button className="bg-primary hover:bg-primary/90">
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Get in touch
