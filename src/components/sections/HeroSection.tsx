@@ -92,16 +92,16 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="border-primary/50 hover:bg-primary/10 text-base px-8">
-              <a href="/systems#architecture" className="flex items-center">
+              <Link href="/systems#architecture" className="flex items-center">
                 <Network className="mr-2 h-5 w-5" />
                 Architecture
-              </a>
+              </Link>
             </Button>
             <Button size="lg" variant="ghost" className="text-muted-foreground hover:text-primary text-base px-8">
-              <a href="/contact" className="flex items-center">
+              <Link href="/contact" className="flex items-center">
                 <Mail className="mr-2 h-5 w-5" />
                 Contact
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </div>
