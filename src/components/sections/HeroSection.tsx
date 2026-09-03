@@ -25,7 +25,7 @@ export function HeroSection() {
             <div className="flex justify-center mb-8">
               <div className="relative">
                 <div className="w-48 h-48 rounded-full border-2 border-primary/50 flex items-center justify-center overflow-hidden opacity-80">
-                  <img 
+                  <Image 
                     src="/images/mainbg.png" 
                     alt="Background"
                     width={192}
