@@ -26,8 +26,8 @@ export function HeroSection() {
               <div className="relative">
                 <div className="w-48 h-48 rounded-full border-2 border-primary/50 flex items-center justify-center overflow-hidden opacity-80">
                   <Image 
-                    src="/images/mainbg.png" 
-                    alt="Background"
+                    src="/portfolio/images/profile.png" 
+                    alt={personalInfo.name}
                     width={192}
                     height={192}
                     className="w-full h-full object-cover"

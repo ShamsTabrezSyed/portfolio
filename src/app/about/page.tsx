@@ -35,7 +35,7 @@ export default function AboutPage() {
           <div className="flex justify-center mb-10">
             <div className="w-40 h-40 rounded-full border-2 border-primary/50 overflow-hidden">
               <Image 
-                src="/images/profile.png" 
+                src="/portfolio/images/profile.png" 
                 alt={personalInfo.name}
                 width={160}
                 height={160}
