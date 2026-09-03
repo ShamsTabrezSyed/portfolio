@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Cpu, Network, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -84,11 +85,11 @@ export function HeroSection() {
             className="flex flex-wrap gap-4 justify-center"
           >
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-base px-8">
-              <a href="/systems" className="flex items-center">
+              <Link href="/systems" className="flex items-center">
                 <Cpu className="mr-2 h-5 w-5" />
                 View Systems
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="border-primary/50 hover:bg-primary/10 text-base px-8">
               <a href="/systems#architecture" className="flex items-center">
