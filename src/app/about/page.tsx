@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { personalInfo, experience, coreCompetencies } from '@/lib/constants';
 import { Mail, Phone, MapPin, Sparkles, Home, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AboutPage() {
   return (
@@ -36,6 +37,8 @@ export default function AboutPage() {
               <img 
                 src="/images/profile.png" 
                 alt={personalInfo.name}
+                width={160}
+                height={160}
                 className="w-full h-full object-cover"
               />
             </div>

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Cpu, Network, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { personalInfo } from '@/lib/constants';
+import Image from 'next/image';
 import { ParticleBackground } from '@/components/three/ParticleBackground';
 
 export function HeroSection() {
@@ -27,6 +28,8 @@ export function HeroSection() {
                   <img 
                     src="/images/mainbg.png" 
                     alt="Background"
+                    width={192}
+                    height={192}
                     className="w-full h-full object-cover"
                   />
                 </div>
