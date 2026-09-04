@@ -18,6 +18,9 @@ export interface SystemArchitecture {
   systemId: string;
   title: string;
   accentColor: string;
+  badge: string;
+  summary: string;
+  metrics: { label: string; value: string }[];
   nodes: ArchNode[];
   edges: [string, string][];
 }
@@ -35,6 +38,13 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
     systemId: 'enterprise-rag-chatbot',
     title: 'Enterprise Q&A Chatbot (RAG)',
     accentColor: '#00d4ff',
+    badge: 'GenAI',
+    summary: 'Semantic retrieval over 500K documents with real-time streaming answers.',
+    metrics: [
+      { label: 'Latency', value: '240ms' },
+      { label: 'Indexed', value: '500K+' },
+      { label: 'Vector DB', value: 'FAISS' },
+    ],
     nodes: [
       {
         id: 'chat-ui',
@@ -61,6 +71,14 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
         details: ['Prompt', 'Citations'],
       },
       {
+        id: 'cache',
+        label: 'Cache Layer',
+        description: 'Reuses answers for repeated queries.',
+        tech: 'Redis',
+        layer: 'core',
+        details: ['TTL', 'Hot queries'],
+      },
+      {
         id: 'faiss',
         label: 'Vector Index',
         description: 'Approximate nearest neighbor over 500K docs.',
@@ -84,20 +102,38 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
         layer: 'output',
         details: ['Token', 'Progress'],
       },
+      {
+        id: 'monitoring',
+        label: 'Observability',
+        description: 'Tracks latency, quality and usage.',
+        tech: 'Azure Monitor',
+        layer: 'output',
+        details: ['Dashboards', 'Alerts'],
+      },
     ],
     edges: [
       ['chat-ui', 'gateway'],
       ['gateway', 'orchestrator'],
+      ['gateway', 'cache'],
       ['orchestrator', 'faiss'],
       ['faiss', 'orchestrator'],
+      ['cache', 'orchestrator'],
       ['orchestrator', 'llm'],
       ['llm', 'stream'],
+      ['stream', 'monitoring'],
     ],
   },
   'financial-nlp-pipeline': {
     systemId: 'financial-nlp-pipeline',
     title: 'Financial NLP Pipeline',
     accentColor: '#a855f7',
+    badge: 'Fintech AI',
+    summary: 'BERT-based entity extraction across 15K financial documents daily with automated retraining.',
+    metrics: [
+      { label: 'Throughput', value: '15K/day' },
+      { label: 'Model', value: 'BERT-NER' },
+      { label: 'API', value: 'FastAPI' },
+    ],
     nodes: [
       {
         id: 'ingest',
@@ -114,6 +150,14 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
         tech: 'Python / NLTK',
         layer: 'core',
         details: ['Tokenize', 'Normalize'],
+      },
+      {
+        id: 'retrain',
+        label: 'Retraining',
+        description: 'Periodically fine-tunes on new labels.',
+        tech: 'CloudWatch',
+        layer: 'core',
+        details: ['Scheduler', 'Validation'],
       },
       {
         id: 'ner',
@@ -145,12 +189,20 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
       ['preprocess', 'ner'],
       ['ner', 'index'],
       ['index', 'api'],
+      ['ner', 'retrain'],
     ],
   },
   'clinical-nlp-platform': {
     systemId: 'clinical-nlp-platform',
     title: 'Clinical NLP Platform',
     accentColor: '#22c55e',
+    badge: 'Healthcare AI',
+    summary: 'BioBERT clinical entity extraction with RLHF and full audit compliance.',
+    metrics: [
+      { label: 'Accuracy', value: '94.2% F1' },
+      { label: 'Model', value: 'BioBERT' },
+      { label: 'Compliance', value: 'HIPAA' },
+    ],
     nodes: [
       {
         id: 'notes-api',
@@ -185,6 +237,14 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
         details: ['Audit', 'Billing'],
       },
       {
+        id: 'audit',
+        label: 'Audit Trail',
+        description: 'Logs every access for compliance.',
+        tech: 'Immutable Log',
+        layer: 'storage',
+        details: ['HIPAA', 'Traceability'],
+      },
+      {
         id: 'support',
         label: 'Decision Support',
         description: 'Surfaces entities for clinicians.',
@@ -197,7 +257,9 @@ export const systemArchitectures: Record<string, SystemArchitecture> = {
       ['notes-api', 'deidentify'],
       ['deidentify', 'biocbert'],
       ['biocbert', 'emr'],
+      ['biocbert', 'audit'],
       ['emr', 'support'],
+      ['audit', 'support'],
     ],
   },
 };
