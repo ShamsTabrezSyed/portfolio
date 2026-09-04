@@ -30,12 +30,12 @@ function Particles({ count = 2000 }) {
       <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
-          color="#33e0ff"
+          color="#6ee9ff"
           size={0.025}
           sizeAttenuation={true}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
-          opacity={0.9}
+          opacity={1.0}
         />
       </Points>
     </group>
